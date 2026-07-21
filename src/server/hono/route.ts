@@ -20,6 +20,7 @@ import { getSessions } from "../service/session/getSessions";
 import { decodeSessionId } from "../service/session/id";
 import type { HonoAppType } from "./app";
 import { configMiddleware } from "./middleware/config.middleware";
+import { securityMiddleware } from "./middleware/security.middleware";
 
 export const routes = (app: HonoAppType) => {
   const taskController = new CodexTaskController();
@@ -27,6 +28,7 @@ export const routes = (app: HonoAppType) => {
   return (
     app
       // middleware
+      .use(securityMiddleware)
       .use(configMiddleware)
 
       // routes

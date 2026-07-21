@@ -4,6 +4,12 @@ if (process.env.PORT === undefined) {
   process.env.PORT = "5656";
 }
 
+// Bind to loopback by default so the (unauthenticated) server is not exposed
+// on the local network. Set CC_VIEWER_HOST=0.0.0.0 to opt into wider binding.
+// Assign unconditionally so a shell-inherited HOSTNAME (machine name) can't
+// accidentally widen the bind.
+process.env.HOSTNAME = process.env.CC_VIEWER_HOST ?? "127.0.0.1";
+
 const DEFAULT_PORT = Number(process.env.PORT ?? "5656");
 const LOCALHOST = `http://localhost:${DEFAULT_PORT}`;
 const AUTO_OPEN_DISABLED = [

@@ -134,6 +134,15 @@ function convertToGitDiffHunk(chunk: AnyChunk): GitDiffHunk {
   };
 }
 
+const assertSafeRef = <T extends string | undefined>(ref: T): T => {
+  // Reject refs that would be interpreted as git options (argument injection),
+  // e.g. "--output=/path" or "--ext-diff".
+  if (typeof ref === "string" && ref.startsWith("-")) {
+    throw new Error(`Invalid ref: ${ref}`);
+  }
+  return ref;
+};
+
 const extractRef = (refText: string) => {
   const [group, ref] = refText.split(":");
   if (group === undefined || ref === undefined) {
@@ -148,7 +157,7 @@ const extractRef = (refText: string) => {
     throw new Error(`Invalid ref text: ${refText}`);
   }
 
-  return ref;
+  return assertSafeRef(ref);
 };
 
 /**
@@ -159,8 +168,6 @@ async function getUntrackedFiles(cwd: string): Promise<GitResult<string[]>> {
     ["status", "--untracked-files=all", "--short"],
     cwd,
   );
-
-  console.log("debug statusResult stdout", statusResult);
 
   if (!statusResult.success) {
     return statusResult;
@@ -264,9 +271,10 @@ export const getDiff = async (
 
   const commandArgs = toRef === undefined ? [fromRef] : [fromRef, toRef];
 
-  // Get diff with numstat for file statistics
+  // Get diff with numstat for file statistics. The trailing "--" ensures refs
+  // are treated as revisions and nothing is reinterpreted as a pathspec/option.
   const numstatResult = await executeGitCommand(
-    ["diff", "--numstat", ...commandArgs],
+    ["diff", "--numstat", ...commandArgs, "--"],
     cwd,
   );
 
@@ -276,7 +284,7 @@ export const getDiff = async (
 
   // Get diff with full content
   const diffResult = await executeGitCommand(
-    ["diff", "--unified=5", ...commandArgs],
+    ["diff", "--unified=5", ...commandArgs, "--"],
     cwd,
   );
 
@@ -334,7 +342,6 @@ export const getDiff = async (
     // Include untracked files when comparing to working directory
     if (toRef === undefined) {
       const untrackedResult = await getUntrackedFiles(cwd);
-      console.log("debug untrackedResult", untrackedResult);
       if (untrackedResult.success) {
         for (const untrackedFile of untrackedResult.data) {
           const untrackedDiff = await createUntrackedFileDiff(
