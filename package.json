@@ -85,5 +85,17 @@
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   },
-  "packageManager": "pnpm@10.8.1"
+  "packageManager": "pnpm@10.8.1",
+  "pnpm": {
+    "overrides": {
+      "prismjs": ">=1.30.0",
+      "mdast-util-to-hast": ">=13.2.1",
+      "postcss": ">=8.5.10"
+    }
+  },
+  "overrides": {
+    "prismjs": ">=1.30.0",
+    "mdast-util-to-hast": ">=13.2.1",
+    "postcss": ">=8.5.10"
+  }
 }
