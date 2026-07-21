@@ -37,6 +37,6 @@ export const securityMiddleware = createMiddleware<HonoContext>(
       }
     }
 
-    await next();
+    return await next();
   },
 );
