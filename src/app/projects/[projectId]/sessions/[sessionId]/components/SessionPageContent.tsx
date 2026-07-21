@@ -83,14 +83,14 @@ export const SessionPageContent: FC<{
 
     try {
       await navigator.clipboard.writeText(valueToCopy);
-      toast.success("セッションIDをコピーしました");
+      toast.success("Copied session ID");
     } catch (error) {
       console.error("Failed to copy session id:", error);
-      toast.error("セッションIDのコピーに失敗しました");
+      toast.error("Failed to copy session ID");
     }
   };
 
-  // 初期表示はログの最下部へスクロール
+  // On initial render, scroll to the bottom of the log
   useEffect(() => {
     if (!hasInitialScrollRef.current && turns.length > 0) {
       scrollToBottom("auto");
@@ -99,7 +99,7 @@ export const SessionPageContent: FC<{
     }
   }, [turns, scrollToBottom]);
 
-  // 自動スクロール処理
+  // Auto-scroll handling
   useEffect(() => {
     if (
       (isRunningTask || isPausedTask) &&
@@ -172,7 +172,7 @@ export const SessionPageContent: FC<{
                   onClick={() => {
                     void handleCopySessionId();
                   }}
-                  aria-label="セッションIDをコピー"
+                  aria-label="Copy session ID"
                 >
                   <CopyIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </Button>

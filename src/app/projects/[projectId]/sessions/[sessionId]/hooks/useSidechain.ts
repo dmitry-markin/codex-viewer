@@ -41,7 +41,7 @@ export const useSidechain = (conversations: Conversation[]) => {
       const rootConversation = getRootConversationRecursive(conv);
 
       if (rootConversation.type === "summary") {
-        // たぶんない
+        // Probably none
         continue;
       }
 

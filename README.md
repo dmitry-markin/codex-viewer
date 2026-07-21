@@ -97,4 +97,4 @@ Licensed under MIT – see [LICENSE](./LICENSE). Contribution guidelines and arc
 
 ## Release Notes
 
-- `dist/index.js` は CLI (bin) のエントリーポイントです。削除・リネームすると `npx @nogataka/codex-viewer` やグローバルインストールが動かなくなるので注意してください。
+- `dist/index.js` is the CLI (bin) entry point. Note that deleting or renaming it will break `npx @nogataka/codex-viewer` and global installs.

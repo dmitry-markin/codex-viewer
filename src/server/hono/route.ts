@@ -352,7 +352,7 @@ export const routes = (app: HonoAppType) => {
 
             let isConnected = true;
 
-            // ハートビート設定
+            // Heartbeat setup
             const heartbeat = setInterval(() => {
               if (isConnected) {
                 eventBus.emit("heartbeat", {
@@ -375,13 +375,13 @@ export const routes = (app: HonoAppType) => {
               clearInterval(heartbeat);
             };
 
-            // 接続終了時のクリーンアップ
+            // Cleanup on connection close
             stream.onAbort(() => {
               console.log("SSE connection aborted");
               onConnectionClosed();
             });
 
-            // イベントリスナーを登録
+            // Register event listeners
             console.log("Registering SSE event listeners");
             eventBus.on("connected", async (event) => {
               if (!isConnected) {
@@ -432,7 +432,7 @@ export const routes = (app: HonoAppType) => {
               });
             });
 
-            // 初期接続確認メッセージ
+            // Initial connection confirmation message
             eventBus.emit("connected", {
               type: "connected",
               message: "SSE connection established",
@@ -444,7 +444,7 @@ export const routes = (app: HonoAppType) => {
           },
           async (err, stream) => {
             console.error("Streaming error:", err);
-            await stream.write("エラーが発生しました。");
+            await stream.write("An error occurred.");
           },
         );
       })

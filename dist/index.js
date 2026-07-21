@@ -58,7 +58,7 @@ const openBrowser = async (url) => {
   const ready = await waitForServer(url).catch(() => false);
   if (!ready) {
     console.warn(
-      `[codex-viewer] サーバーの起動確認に失敗したため、ブラウザ自動起動をスキップします (${url})`,
+      `[codex-viewer] Could not confirm the server started, so skipping automatic browser launch (${url})`,
     );
     return;
   }
@@ -66,10 +66,10 @@ const openBrowser = async (url) => {
   try {
     const { default: open } = await import("open");
     await open(url, { wait: false });
-    console.log(`[codex-viewer] ブラウザを自動起動しました: ${url}`);
+    console.log(`[codex-viewer] Launched the browser automatically: ${url}`);
   } catch (error) {
     console.warn(
-      `[codex-viewer] ブラウザの自動起動に失敗しました: ${error instanceof Error ? error.message : String(error)}`,
+      `[codex-viewer] Failed to launch the browser automatically: ${error instanceof Error ? error.message : String(error)}`,
     );
   }
 };

@@ -28,7 +28,7 @@ export class FileWatcherService {
 
     try {
       console.log("Starting file watcher on:", codexSessionsRootPath);
-      // Codex セッションディレクトリを監視
+      // Watch the Codex sessions directory
       this.watcher = watch(
         codexSessionsRootPath,
         { persistent: false, recursive: true },
@@ -142,7 +142,7 @@ export class FileWatcherService {
   }
 }
 
-// シングルトンインスタンス
+// Singleton instance
 let watcherInstance: FileWatcherService | null = null;
 
 export const getFileWatcher = (): FileWatcherService => {

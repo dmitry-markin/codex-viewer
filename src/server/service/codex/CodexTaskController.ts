@@ -215,7 +215,7 @@ export class CodexTaskController {
 
       task.process = child;
 
-      // stdin経由でメッセージを送信（SDK方式）
+      // Send the message via stdin (SDK approach)
       if (child.stdin) {
         child.stdin.write(options.message);
         child.stdin.end();
@@ -299,14 +299,14 @@ export class CodexTaskController {
             payload?: unknown;
           };
 
-          // thread.started から即座にセッションIDを取得
+          // Get the session ID immediately from thread.started
           if (parsed.type === "thread.started" && parsed.thread_id) {
             task.sessionUuid = parsed.thread_id;
             this.emitTaskChange();
             ensureSessionPath();
           }
 
-          // session_meta からのフォールバック（互換性のため維持）
+          // Fallback from session_meta (kept for compatibility)
           if (
             parsed.type === "session_meta" &&
             parsed.payload &&
